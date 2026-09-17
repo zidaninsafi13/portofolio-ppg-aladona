@@ -1,5 +1,5 @@
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? (
-  process.env.NODE_ENV === "production" ? "/portofolio-s2-1" : ""
+  process.env.NODE_ENV === "production" ? "/portofolio-ppg-aladona" : ""
 );
 
 export function assetPath(path?: string) {
