@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, IBM_Plex_Mono, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
 
+import { assetPath } from "@/lib/asset-path";
 import "./globals.css";
 
 const displayFont = Newsreader({
@@ -44,13 +45,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-      url: "/assets/favicon/favicon.jpeg",
-      type: "image/jpeg",
+        url: assetPath("/assets/favicon/favicon.jpeg"),
+        type: "image/jpeg",
       },
     ],
 
-    shortcut: "/assets/favicon/favicon.jpeg",
-    apple: "/assets/favicon/favicon.jpeg",
+    shortcut: assetPath("/assets/favicon/favicon.jpeg"),
+    apple: assetPath("/assets/favicon/favicon.jpeg"),
   },
 
   openGraph: {
