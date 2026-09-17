@@ -10,7 +10,6 @@ import { PortfolioProvider } from "@/components/providers/portfolio-provider";
 import { RoadmapSection } from "@/components/roadmap-section";
 import { AthleticBlueprint } from "@/components/ui/athletic-blueprint";
 import { JourneyIntro } from "@/components/ui/journey-intro";
-import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { SkipLink } from "@/components/ui/skip-link";
 
 export function PortfolioPage() {
@@ -18,7 +17,6 @@ export function PortfolioPage() {
     <PortfolioProvider>
       <JourneyIntro />
       <SkipLink />
-      <ScrollProgress />
       <div id="site-shell" className="site-shell">
         <AthleticBlueprint />
         <Navbar />

@@ -7,37 +7,34 @@ import { SectionHeader } from "@/components/ui/section-header";
 
 export function IdentitySection() {
   const { content } = usePortfolio();
+  const [context, practice] = content.identity.cards;
 
   return (
-    <section id="identitas" className="field-section section-pad relative scroll-mt-28 overflow-hidden">
-      <div className="section-shell relative">
-        <MotionSection>
-          <SectionHeader eyebrow={content.identity.eyebrow} heading={content.identity.heading} index="01" />
-        </MotionSection>
-
-        <div className="relative mt-16 grid gap-5 lg:grid-cols-2">
-          <div className="absolute left-1/2 top-1/2 hidden size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-accent bg-background font-mono text-xs font-bold text-accent lg:grid" aria-hidden="true">VS</div>
-          {content.identity.cards.map((card, index) => {
-            const Icon = card.icon === "globe" ? Globe2 : GraduationCap;
-            const isGold = card.tone === "gold";
-            return (
-              <MotionSection key={card.index} variant="card" order={index} delay={index * 0.1}>
-                <article className="playbook-panel group h-full p-7 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-accent sm:p-9 lg:p-10">
-                  <div className="flex items-center gap-4">
-                    <span className={`grid size-12 place-items-center border ${isGold ? "border-gold/40 bg-gold-soft text-gold" : "border-accent/40 bg-accent-soft text-accent"}`}>
-                      <Icon size={21} aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted">{card.index}</p>
-                      <h3 className="mt-1 font-sans text-2xl font-extrabold uppercase tracking-[-0.04em] text-foreground">{card.title}</h3>
-                    </div>
-                  </div>
-                  <div className="tactical-rule mt-7" aria-hidden="true" />
-                  <p className="mt-7 text-base leading-8 text-muted sm:text-lg">{card.description}</p>
-                </article>
-              </MotionSection>
-            );
-          })}
+    <section id="identitas" data-journey="01" className="field-section section-pad journey-section journey-identity scroll-mt-24 bg-section">
+      <span className="journey-index" aria-hidden="true">01</span>
+      <div className="section-shell">
+        <div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-20">
+          <MotionSection>
+            <SectionHeader eyebrow={content.identity.eyebrow} heading={content.identity.heading} index="01" />
+          </MotionSection>
+          <MotionSection variant="panel" delay={.08}>
+            <div className="identity-dossier">
+              <div className="dossier-row">
+                <span className="dossier-label">{context.index}</span>
+                <div>
+                  <div className="flex items-center gap-3"><Globe2 size={17} className="text-gold" aria-hidden="true" /><h3 className="font-display text-2xl italic text-foreground sm:text-3xl">{context.title}</h3></div>
+                  <p className="mt-4 max-w-2xl text-base leading-8 text-muted">{context.description}</p>
+                </div>
+              </div>
+              <div className="dossier-row">
+                <span className="dossier-label">{practice.index}</span>
+                <div>
+                  <div className="flex items-center gap-3"><GraduationCap size={17} className="text-gold" aria-hidden="true" /><h3 className="font-display text-2xl italic text-foreground sm:text-3xl">{practice.title}</h3></div>
+                  <p className="mt-4 max-w-2xl text-base leading-8 text-muted">{practice.description}</p>
+                </div>
+              </div>
+            </div>
+          </MotionSection>
         </div>
       </div>
     </section>

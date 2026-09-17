@@ -26,10 +26,11 @@ export function CourseSection() {
 
   return (
     <>
-      <section id="mata-kuliah" className="field-section section-pad relative scroll-mt-28 overflow-hidden">
+      <section id="mata-kuliah" data-journey="03" className="field-section section-pad course-library journey-section journey-courses relative scroll-mt-28 overflow-hidden">
+        <span className="journey-index" aria-hidden="true">03</span>
         <div className="section-shell relative">
           <MotionSection>
-            <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
+            <div className="course-header-grid">
               <SectionHeader
                 eyebrow={content.courses.eyebrow}
                 heading={content.courses.heading}
@@ -37,7 +38,7 @@ export function CourseSection() {
                 index="03"
               />
 
-              <div className="inline-flex w-fit border border-border-strong bg-surface/70 p-1" role="tablist" aria-label={content.courses.eyebrow}>
+              <div className="course-switcher" role="tablist" aria-label={content.courses.eyebrow}>
                 {([1, 2] as const).map((number) => {
                   const selected = semester === number;
                   return (
@@ -58,7 +59,7 @@ export function CourseSection() {
             </div>
           </MotionSection>
 
-          <div className="mt-12">
+          <div className="mt-9">
             <AnimatePresence mode="wait">
               {visibleCourses.length > 0 ? (
                 <motion.div
@@ -69,7 +70,7 @@ export function CourseSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: reduceMotion ? 0 : 0.34 }}
-                  className="grid gap-5 md:grid-cols-2 xl:grid-cols-3 xl:gap-6"
+                  className="course-catalog"
                 >
                   {visibleCourses.map((course, index) => (
                     <MotionSection
@@ -83,6 +84,8 @@ export function CourseSection() {
                         course={course}
                         locale={locale}
                         actionLabel={content.courses.viewDetail}
+                        kickerLabel={content.courses.cardKicker}
+                        artifactLabel={content.modal.artifactPreview}
                         onOpen={openCourse}
                       />
                     </MotionSection>

@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, useInView, useReducedMotion, type Variants } from "motion/react";
 import type { HeadingParts } from "@/lib/portfolio-types";
+import { useRef } from "react";
 
 interface SectionHeaderProps {
   eyebrow: string;
@@ -42,6 +43,8 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   const centered = align === "center";
   const reduceMotion = useReducedMotion();
+  const headingRef = useRef<HTMLSpanElement>(null);
+  const headingInView = useInView(headingRef, { once: false, amount: 0.35, margin: "-12% 0px -12% 0px" });
   const words: HeadingWord[] = [
     ...heading.leading.split(/\s+/).map((value) => ({ value, accent: false })),
     ...heading.accent.split(/\s+/).map((value) => ({ value, accent: true })),
@@ -50,26 +53,22 @@ export function SectionHeader({
   const accessibleHeading = [heading.leading, heading.accent, heading.trailing]
     .filter(Boolean)
     .join(" ");
+  const eyebrowLabel = eyebrow.replace(/^\d+\s*\/\s*/, "");
 
   return (
     <header className={`relative max-w-5xl ${centered ? "mx-auto text-center" : ""}`}>
-      {index ? (
-        <span className={`section-index absolute -top-4 -z-10 opacity-20 ${centered ? "left-1/2 -translate-x-1/2" : "right-0"}`} aria-hidden="true">
-          {index}
-        </span>
-      ) : null}
-      <p className={`eyebrow ${centered ? "justify-center" : ""}`}>{eyebrow}</p>
+      <p className={`eyebrow ${centered ? "justify-center" : ""}`}>{index ? `${index} / ${eyebrowLabel}` : eyebrow}</p>
       <h2
         className={`section-heading mt-7 text-foreground ${centered ? "mx-auto" : ""}`}
         aria-label={accessibleHeading}
       >
         <motion.span
+          ref={headingRef}
           className="inline"
           aria-hidden="true"
-          variants={containerVariants}
           initial={reduceMotion ? false : "hidden"}
-          whileInView={reduceMotion ? undefined : "visible"}
-          viewport={{ once: true, amount: 0.55 }}
+          animate={reduceMotion || headingInView ? "visible" : "hidden"}
+          variants={containerVariants}
         >
           {words.map((word, wordIndex) => (
             <motion.span

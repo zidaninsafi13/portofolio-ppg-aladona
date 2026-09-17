@@ -1,22 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { usePortfolio } from "@/components/providers/portfolio-provider";
-
-const titleWords = ["WELCOME", "TO MY", "JOURNEY"];
-
-const journeySteps = [
-  { index: "01", label: "Belajar" },
-  { index: "02", label: "Praktik" },
-  { index: "03", label: "Refleksi" },
-];
-
-const scanRows = [
-  { label: "Name", value: "Zidan Insafi" },
-  { label: "Program", value: "PPG Prajabatan" },
-  { label: "Field", value: "PJOK" },
-];
+import { assetPath } from "@/lib/asset-path";
 
 const routeNodes = [
   { cx: 178, cy: 650 },
@@ -28,33 +16,34 @@ const routeNodes = [
 export function JourneyIntro() {
   const [isVisible, setIsVisible] = useState(true);
   const shouldReduceMotion = useReducedMotion();
-  const { completeIntro } = usePortfolio();
+  const { completeIntro, content } = usePortfolio();
+
+  const finishIntro = useCallback(() => {
+    setIsVisible(false);
+    completeIntro();
+  }, [completeIntro]);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
+    if (!isVisible) return;
     document.body.style.overflow = "hidden";
-
-    const dismissTimer = window.setTimeout(
-      () => setIsVisible(false),
-      shouldReduceMotion ? 450 : 3400,
-    );
-    const revealTimer = window.setTimeout(
-      completeIntro,
-      shouldReduceMotion ? 450 : 3340,
-    );
-
+    const dismissTimer = window.setTimeout(finishIntro, shouldReduceMotion ? 2000 : 3600);
     return () => {
       window.clearTimeout(dismissTimer);
-      window.clearTimeout(revealTimer);
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = "";
     };
-  }, [completeIntro, shouldReduceMotion]);
+  }, [finishIntro, isVisible, shouldReduceMotion]);
 
   useEffect(() => {
     if (!isVisible) {
       document.body.style.overflow = "";
+      return;
     }
-  }, [isVisible]);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === "Enter") finishIntro();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [finishIntro, isVisible]);
 
   return (
     <AnimatePresence>
@@ -71,7 +60,7 @@ export function JourneyIntro() {
             duration: shouldReduceMotion ? 0.18 : 0.82,
             ease: [0.76, 0, 0.24, 1],
           }}
-          aria-label="Welcome to my journey"
+          aria-label={content.intro.label}
           role="status"
         >
           <div className="journey-intro-atmosphere" aria-hidden="true" />
@@ -123,18 +112,25 @@ export function JourneyIntro() {
           </svg>
 
           <div className="journey-intro-layout">
-            <section className="journey-intro-copy" aria-hidden="true">
+            <section className="journey-intro-copy">
+              <div className="journey-intro-brand">
+                <Image src={assetPath("/assets/logo-kampus/LOGO-UNP-Kediri.png")} alt="" width={48} height={48} priority />
+                <span>
+                  <strong>{content.brand.title}</strong>
+                  <small>{content.brand.subtitle}</small>
+                </span>
+              </div>
               <motion.p
                 className="journey-intro-kicker"
                 initial={{ opacity: 0, x: -18 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: shouldReduceMotion ? 0 : 0.16, duration: 0.5 }}
               >
-                Tactical Journey / 2026
+                {content.intro.label}
               </motion.p>
 
               <div className="journey-intro-title">
-                {titleWords.map((word, index) => (
+                {content.intro.title.map((word, index) => (
                   <motion.span
                     key={word}
                     initial={
@@ -155,18 +151,29 @@ export function JourneyIntro() {
               </div>
 
               <div className="journey-intro-steps">
-                {journeySteps.map((step, index) => (
+                {content.intro.steps.map((step, index) => (
                   <motion.span
-                    key={step.index}
+                    key={step}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: shouldReduceMotion ? 0 : 1.05 + index * 0.2 }}
                   >
-                    <b>{step.index}</b>
-                    {step.label}
+                    <b>{String(index + 1).padStart(2, "0")}</b>
+                    {step}
                   </motion.span>
                 ))}
               </div>
+              <motion.button
+                type="button"
+                className="journey-intro-enter focus-ring"
+                onClick={finishIntro}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: shouldReduceMotion ? 0 : 1.55, duration: .45 }}
+              >
+                <span>{content.intro.enterLabel}</span>
+                <span aria-hidden="true">↗</span>
+              </motion.button>
             </section>
 
             <motion.aside
@@ -182,11 +189,11 @@ export function JourneyIntro() {
             >
               <div className="journey-scan-beam" />
               <div className="journey-scan-head">
-                <span>Identity Scan</span>
-                <span className="journey-scan-signal">Live</span>
+                <span>{content.intro.scanLabel}</span>
+                <span className="journey-scan-signal">{content.intro.status}</span>
               </div>
               <dl>
-                {scanRows.map((row, index) => (
+                {content.intro.scanRows.map((row, index) => (
                   <motion.div
                     key={row.label}
                     initial={{ opacity: 0, x: 10 }}
@@ -204,7 +211,7 @@ export function JourneyIntro() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: shouldReduceMotion ? 0 : 1.82 }}
               >
-                <span /> Status: Ready
+                <span /> {content.intro.status}
               </motion.div>
             </motion.aside>
           </div>

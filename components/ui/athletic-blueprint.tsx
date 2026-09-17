@@ -33,13 +33,13 @@ export function AthleticBlueprint() {
 
         {reduceMotion ? (
           <path
-            className="field-route"
+            className="blueprint-route"
             d="M110 742C250 610 360 710 470 570S675 500 720 420S860 255 1010 330S1195 250 1332 126"
             pathLength="1"
           />
         ) : (
           <motion.path
-            className="field-route"
+            className="blueprint-route"
             d="M110 742C250 610 360 710 470 570S675 500 720 420S860 255 1010 330S1195 250 1332 126"
             style={{ pathLength: routeProgress }}
           />
@@ -53,8 +53,6 @@ export function AthleticBlueprint() {
           <circle cx="1332" cy="126" r="11" />
         </g>
       </svg>
-      <div className="blueprint-coordinate blueprint-coordinate-left">JOURNEY / 26</div>
-      <div className="blueprint-coordinate blueprint-coordinate-right">PPG / PJOK</div>
     </div>
   );
 }

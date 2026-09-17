@@ -1,91 +1,62 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Fraunces,
-  JetBrains_Mono,
-  Plus_Jakarta_Sans,
-} from "next/font/google";
+import { DM_Sans, IBM_Plex_Mono, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "./globals.css";
 
-const displayFont = Fraunces({
+const displayFont = Newsreader({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-newsreader",
   display: "swap",
 });
 
-const bodyFont = Plus_Jakarta_Sans({
+const bodyFont = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
-const monoFont = JetBrains_Mono({
+const monoFont = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex-mono",
   display: "swap",
 });
-
-/*
- * GitHub Pages:
- * https://zidaninsafi13.github.io/portofolio-s2-1/
- *
- * Localhost:
- * http://localhost:3000/
- */
-const basePath =
-  process.env.NODE_ENV === "production"
-    ? "/portofolio-s2-1"
-    : "";
-
-/*
- * Kalau nama file kamu masih ppg.jpeg,
- * ubah favicon.jpeg menjadi ppg.jpeg di sini saja.
- */
-const faviconUrl = `${basePath}/assets/image/favicon.jpeg`;
 
 export const metadata: Metadata = {
-  title: "Zidan Insafi — E-Portofolio PPG Prajabatan",
-
-  description:
-    "Dokumentasi reflektif perjalanan akademik dan profesional Zidan Insafi selama Program PPG Prajabatan.",
-
-  applicationName: "E-Portofolio PPG Zidan Insafi",
+  title: "Aladona Khairulloh Ibrahim | Portofolio PPG PJOK",
+  description: "Portofolio reflektif Aladona Khairulloh Ibrahim selama PPG Prajabatan PJOK.",
+  applicationName: "Portofolio PPG PJOK Aladona Khairulloh Ibrahim",
 
   authors: [
     {
-      name: "Zidan Insafi",
+      name: "Aladona Khairulloh Ibrahim",
     },
   ],
 
   keywords: [
     "PPG Prajabatan",
-    "portofolio guru",
     "PJOK",
+    "portofolio calon guru",
     "refleksi pembelajaran",
   ],
 
   icons: {
     icon: [
       {
-        url: faviconUrl,
-        type: "image/jpeg",
+      url: "/assets/favicon/favicon.jpeg",
+      type: "image/jpeg",
       },
     ],
 
-    shortcut: faviconUrl,
-
-    apple: faviconUrl,
+    shortcut: "/assets/favicon/favicon.jpeg",
+    apple: "/assets/favicon/favicon.jpeg",
   },
 
   openGraph: {
-    title: "Zidan Insafi — E-Portofolio PPG Prajabatan",
-
-    description:
-      "Perjalanan reflektif menjadi calon guru yang bermakna, kontekstual, dan berdampak.",
-
+    title: "Aladona Khairulloh Ibrahim | Portofolio PPG PJOK",
+    description: "Perjalanan belajar, praktik, dan refleksi calon guru PJOK.",
     type: "website",
-
     locale: "id_ID",
   },
 };
@@ -98,11 +69,11 @@ export const viewport: Viewport = {
   themeColor: [
     {
       media: "(prefers-color-scheme: dark)",
-      color: "#06121a",
+      color: "#12243a",
     },
     {
       media: "(prefers-color-scheme: light)",
-      color: "#eef3ef",
+      color: "#f5f9ff",
     },
   ],
 };
@@ -124,7 +95,7 @@ const themeScript = `
       document.documentElement.dataset.theme = theme;
       document.documentElement.style.colorScheme = theme;
     } catch (_) {
-      document.documentElement.dataset.theme = 'dark';
+      document.documentElement.dataset.theme = 'light';
     }
   })();
 `;
@@ -135,11 +106,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html
-      lang="id"
-      data-theme="dark"
-      suppressHydrationWarning
-    >
+    <html lang="id" data-theme="light" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

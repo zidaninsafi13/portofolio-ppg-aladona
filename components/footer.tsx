@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { ArrowUp } from "lucide-react";
+import Image from "next/image";
 import { usePortfolio } from "@/components/providers/portfolio-provider";
 import { MotionSection } from "@/components/ui/motion-section";
 import { assetPath } from "@/lib/asset-path";
@@ -10,29 +10,20 @@ export function Footer() {
   const { content } = usePortfolio();
 
   return (
-    <footer className="field-section relative z-10 overflow-hidden bg-background py-16 sm:py-20">
-      <div className="absolute inset-x-0 top-0 h-3 bg-[repeating-linear-gradient(135deg,var(--accent)_0_7px,transparent_7px_14px)] opacity-45" aria-hidden="true" />
+    <footer className="field-section relative z-10 overflow-hidden bg-section py-10 sm:py-12">
       <div className="section-shell">
         <MotionSection>
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-          <div className="max-w-4xl">
-            <p className="font-sans text-2xl font-extrabold uppercase leading-[1.08] tracking-[-0.035em] text-foreground sm:text-3xl lg:text-4xl">“{content.footer.quote}”</p>
-            <p className="mt-5 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-accent">— {content.footer.author}</p>
+          <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div className="max-w-4xl">
+              <p className="font-display text-2xl italic leading-[1.1] tracking-[-.015em] text-foreground sm:text-3xl lg:text-4xl"><span aria-hidden="true">&quot;</span>{content.footer.quote}<span aria-hidden="true">&quot;</span></p>
+              <p className="mt-5 font-mono text-xs font-semibold uppercase tracking-[.14em] text-accent">- {content.footer.author}</p>
+            </div>
+            <a href="#hero" className="focus-ring inline-flex size-12 items-center justify-center border border-border-strong text-foreground transition-[transform,border-color] hover:-translate-y-1 hover:border-gold" aria-label={content.footer.backToTop}><ArrowUp size={18} aria-hidden="true" /></a>
           </div>
-          <a href="#hero" className="focus-ring inline-flex size-12 items-center justify-center border border-border-strong text-foreground transition-[transform,border-color] hover:-translate-y-1 hover:border-accent" aria-label={content.footer.backToTop}>
-            <ArrowUp size={18} aria-hidden="true" />
-          </a>
-        </div>
-
-        <div className="mt-16 flex flex-col gap-6 border-t border-border pt-7 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <span className="relative size-9 overflow-hidden border border-border bg-white p-1">
-              <Image src={assetPath("/assets/image/logo-kampus.png")} alt="" fill sizes="36px" className="object-contain p-1" />
-            </span>
-            <p className="text-xs text-muted">{content.footer.closing}</p>
+          <div className="mt-10 flex flex-col gap-5 border-t border-border pt-6 sm:mt-12 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3"><span className="footer-mark"><Image src={assetPath("/assets/favicon/favicon.jpeg")} alt={content.brand.title} width={36} height={36} /></span><p className="font-mono text-[.58rem] uppercase tracking-[.13em] text-muted">{content.footer.closing}</p></div>
+            <p className="font-mono text-[.58rem] uppercase tracking-[.13em] text-muted">{content.footer.copyright}</p>
           </div>
-          <p className="font-mono text-[0.58rem] uppercase tracking-[0.13em] text-muted">{content.footer.copyright}</p>
-        </div>
         </MotionSection>
       </div>
     </footer>

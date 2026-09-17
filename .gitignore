@@ -12,6 +12,7 @@
 
 # local tooling
 .playwright-cli/
+output/playwright/
 *.tsbuildinfo
 
 # environment files
@@ -27,4 +28,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-assets/document/mk-1.pdf

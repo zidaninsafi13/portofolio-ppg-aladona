@@ -1,7 +1,6 @@
-const basePath =
-  process.env.NODE_ENV === "production"
-    ? "/portofolio-s2-1"
-    : "";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? (
+  process.env.NODE_ENV === "production" ? "/portofolio-s2-1" : ""
+);
 
 export function assetPath(path?: string) {
   if (!path) return "";

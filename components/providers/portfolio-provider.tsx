@@ -26,7 +26,13 @@ const PortfolioContext = createContext<PortfolioContextValue | null>(null);
 
 export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(defaultLocale);
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof document !== "undefined") {
+      const initialTheme = document.documentElement.dataset.theme;
+      if (initialTheme === "dark" || initialTheme === "light") return initialTheme;
+    }
+    return "light";
+  });
   const [introComplete, setIntroComplete] = useState(false);
 
   useEffect(() => {
